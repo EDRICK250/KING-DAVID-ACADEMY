@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Sign In – King David Academy Portal</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .auth-tabs { display:flex; border-bottom:2px solid var(--gray-200); margin-bottom:28px; }
+  .auth-tab-btn { flex:1; padding:12px; background:none; border:none; font-family:var(--font-body); font-size:.9rem; font-weight:600; color:var(--gray-600); cursor:pointer; position:relative; transition:color var(--transition); }
+  .auth-tab-btn::after { content:''; position:absolute; bottom:-2px; left:0; right:0; height:2px; background:var(--gold); transform:scaleX(0); transition:transform var(--transition); }
+  .auth-tab-btn.active { color:var(--navy); }
+  .auth-tab-btn.active::after { transform:scaleX(1); }
+  .auth-panel { display:none; }
+  .auth-panel.active { display:block; }
+  .pw-strength { height:4px; border-radius:2px; background:var(--gray-200); margin-top:6px; overflow:hidden; }
+  .pw-strength-bar { height:100%; border-radius:2px; transition:all .3s; }
+  .pw-strength-label { font-size:.72rem; color:var(--gray-600); margin-top:4px; }
+  .show-password-btn { position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; color:var(--gray-400); font-size:.85rem; padding:2px 4px; }
+  .show-password-btn:hover { color:var(--gold); }
+</style>
+</head>
+<body>
+
+<div id="pageLoader" class="loading-overlay"><div class="spinner"></div><div class="loading-text">Loading Portal</div></div>
+<div class="toast-container" id="toastContainer"></div>
+
+<main class="login-page">
+  <!-- Left Panel -->
+  <div class="login-left">
+    <div class="login-left-content">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:8px">
+        <div class="navbar-logo" style="width:50px;height:50px;font-size:1.3rem">KD</div>
+        <div style="font-family:var(--font-display);color:#fff;font-size:1.2rem;font-weight:700;line-height:1.2">King David Academy<span style="display:block;font-family:var(--font-body);font-size:.7rem;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;font-weight:400">Kigali, Rwanda · Est. 1984</span></div>
+      </div>
+      <h2>Your <em>Academy</em><br>in Your Hands</h2>
+      <p>Access marks, timetables, announcements, fees, and more — all in one secure portal built for the whole school community.</p>
+      <div class="login-feature">
+        <div class="login-feature-icon">
+          <img src="https://img.icons8.com/color/32/bar-chart.png" alt="Results" style="width:18px;height:18px;">
+        </div>
+        <div class="login-feature-text"><strong>Real-Time Results</strong><span>View marks as soon as they're published</span></div>
+      </div>
+      <div class="login-feature">
+        <div class="login-feature-icon">
+          <img src="https://img.icons8.com/color/32/announcement.png" alt="Notifications" style="width:18px;height:18px;">
+        </div>
+        <div class="login-feature-text"><strong>Instant Notifications</strong><span>Never miss an important announcement</span></div>
+      </div>
+      <div class="login-feature">
+        <div class="login-feature-icon">
+          <img src="https://img.icons8.com/color/32/lock--v1.png" alt="Secure" style="width:18px;height:18px;">
+        </div>
+        <div class="login-feature-text"><strong>Secure &amp; Private</strong><span>Role-based access protects all data</span></div>
+      </div>
+      <div style="margin-top:32px">
+        <button class="theme-toggle" style="width:auto;padding:8px 16px;border-radius:var(--radius-sm);font-size:.85rem;gap:8px;display:flex;align-items:center">🌙 Toggle Dark Mode</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Panel -->
+  <div class="login-right">
+    <div class="login-form-wrap">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+        <div>
+          <h3 id="authHeading">Welcome Back</h3>
+          <p id="authSubheading" style="color:var(--gray-600);font-size:.88rem;">Sign in to your portal account</p>
+        </div>
+        <a href="index.html" style="font-size:.82rem;color:var(--gold)">← Home</a>
+      </div>
+
+      <!-- Auth Tabs -->
+      <div class="auth-tabs">
+        <button class="auth-tab-btn active" id="tabSignIn" onclick="switchTab('signin')">Sign In</button>
+        <button class="auth-tab-btn" id="tabRegister" onclick="switchTab('register')">Create Account</button>
+      </div>
+
+      <!-- ── SIGN IN PANEL ── -->
+      <div class="auth-panel active" id="panelSignin">
+
+        <!-- Role Selector -->
+        <div class="role-selector" role="radiogroup" aria-label="Select your role">
+          <button class="role-btn active" data-role="student" type="button">
+            <span class="role-icon"><img src="https://img.icons8.com/color/32/student-male.png" alt="Student" style="width:24px;height:24px;"></span> Student
+          </button>
+          <button class="role-btn" data-role="parent" type="button">
+            <span class="role-icon"><img src="https://img.icons8.com/color/32/family.png" alt="Parent" style="width:24px;height:24px;"></span> Parent
+          </button>
+          <button class="role-btn" data-role="teacher" type="button">
+            <span class="role-icon"><img src="https://img.icons8.com/color/32/teacher.png" alt="Teacher" style="width:24px;height:24px;"></span> Teacher
+          </button>
+          <button class="role-btn" data-role="admin" type="button">
+            <span class="role-icon"><img src="https://img.icons8.com/color/32/admin-settings-male.png" alt="Admin" style="width:24px;height:24px;"></span> Admin
+          </button>
+        </div>
+
+        <form id="loginForm" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="email">Email Address</label>
+            <div class="input-icon">
+              <span class="icon" aria-hidden="true">✉️</span>
+              <input type="email" id="email" class="form-control" placeholder="you@kda.ac.rw" autocomplete="email" required>
+            </div>
+            <div class="form-error" id="emailError" role="alert"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="password">Password</label>
+            <div class="input-icon" style="position:relative;">
+              <span class="icon" aria-hidden="true">🔒</span>
+              <input type="password" id="password" class="form-control" placeholder="Enter your password" autocomplete="current-password" required>
+              <button type="button" class="show-password-btn" onclick="togglePw('password',this)" title="Show/Hide password">👁</button>
+            </div>
+            <div class="form-error" id="passError" role="alert"></div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+            <div class="form-check">
+              <input type="checkbox" id="remember">
+              <label for="remember">Remember me</label>
+            </div>
+            <a href="#" style="font-size:.82rem;color:var(--gold)" onclick="showForgotHint(event)">Forgot password?</a>
+          </div>
+          <button type="submit" class="btn btn-primary" id="signInBtn" style="width:100%;justify-content:center;padding:13px">Sign In →</button>
+        </form>
+
+        <p style="text-align:center;margin-top:20px;font-size:.82rem;color:var(--gray-600)">
+          Don't have an account? <a href="#" onclick="switchTab('register')" style="color:var(--gold);font-weight:600;">Create one →</a>
+        </p>
+      </div>
+
+      <!-- ── REGISTER PANEL ── -->
+      <div class="auth-panel" id="panelRegister">
+        <form id="registerForm" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="regFirstName">First Name *</label>
+              <input type="text" id="regFirstName" class="form-control" placeholder="First name" required>
+              <div class="form-error" id="regFirstNameErr" role="alert"></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="regLastName">Last Name *</label>
+              <input type="text" id="regLastName" class="form-control" placeholder="Last name" required>
+              <div class="form-error" id="regLastNameErr" role="alert"></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="regEmail">Email Address *</label>
+            <div class="input-icon">
+              <span class="icon">✉️</span>
+              <input type="email" id="regEmail" class="form-control" placeholder="you@kda.ac.rw" required>
+            </div>
+            <div class="form-error" id="regEmailErr" role="alert"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="regRole">Role *</label>
+            <select id="regRole" class="form-control" required>
+              <option value="">Select your role</option>
+              <option value="student">Student</option>
+              <option value="parent">Parent / Guardian</option>
+              <option value="teacher">Teacher</option>
+            </select>
+            <div class="form-error" id="regRoleErr" role="alert"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="regPassword">Create Password *</label>
+            <div class="input-icon" style="position:relative;">
+              <span class="icon">🔒</span>
+              <input type="password" id="regPassword" class="form-control" placeholder="Minimum 8 characters" required oninput="checkPasswordStrength(this.value)">
+              <button type="button" class="show-password-btn" onclick="togglePw('regPassword',this)" title="Show/Hide">👁</button>
+            </div>
+            <div class="pw-strength"><div class="pw-strength-bar" id="pwStrengthBar" style="width:0%;background:var(--red)"></div></div>
+            <div class="pw-strength-label" id="pwStrengthLabel">Enter a password</div>
+            <div class="form-error" id="regPassErr" role="alert"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="regConfirm">Confirm Password *</label>
+            <div class="input-icon" style="position:relative;">
+              <span class="icon">🔒</span>
+              <input type="password" id="regConfirm" class="form-control" placeholder="Repeat your password" required>
+              <button type="button" class="show-password-btn" onclick="togglePw('regConfirm',this)" title="Show/Hide">👁</button>
+            </div>
+            <div class="form-error" id="regConfirmErr" role="alert"></div>
+          </div>
+          <div class="form-check" style="margin-bottom:20px">
+            <input type="checkbox" id="regTerms" required>
+            <label for="regTerms" style="font-size:.83rem;color:var(--gray-600)">I agree to the <a href="#" style="color:var(--gold)">Terms of Use</a> and <a href="#" style="color:var(--gold)">Privacy Policy</a></label>
+          </div>
+          <div class="form-error" id="regTermsErr" role="alert" style="margin-top:-14px;margin-bottom:14px;"></div>
+          <button type="submit" class="btn btn-primary" id="registerBtn" style="width:100%;justify-content:center;padding:13px">Create Account →</button>
+        </form>
+        <p style="text-align:center;margin-top:20px;font-size:.82rem;color:var(--gray-600)">
+          Already have an account? <a href="#" onclick="switchTab('signin')" style="color:var(--gold);font-weight:600;">Sign in →</a>
+        </p>
+      </div>
+
+      <div style="border-top:1px solid var(--gray-200);margin-top:24px;padding-top:16px;font-size:.75rem;color:var(--gray-400);text-align:center">
+        Your data is protected. <a href="#" style="color:var(--gold)">Privacy Policy</a> · <a href="#" style="color:var(--gold)">Terms</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="js/script.js"></script>
+<script>
+// ── Tab Switching ───────────────────────────────────────
+function switchTab(tab) {
+  const isSignIn = tab === 'signin';
+  document.getElementById('tabSignIn').classList.toggle('active', isSignIn);
+  document.getElementById('tabRegister').classList.toggle('active', !isSignIn);
+  document.getElementById('panelSignin').classList.toggle('active', isSignIn);
+  document.getElementById('panelRegister').classList.toggle('active', !isSignIn);
+  document.getElementById('authHeading').textContent = isSignIn ? 'Welcome Back' : 'Create Your Account';
+  document.getElementById('authSubheading').textContent = isSignIn ? 'Sign in to your portal account' : 'Register for portal access';
+}
+
+// ── Show/Hide Password ──────────────────────────────────
+function togglePw(inputId, btn) {
+  const input = document.getElementById(inputId);
+  if (input.type === 'password') { input.type = 'text'; btn.textContent = '🙈'; }
+  else { input.type = 'password'; btn.textContent = '👁'; }
+}
+
+// ── Password Strength ───────────────────────────────────
+function checkPasswordStrength(pw) {
+  const bar = document.getElementById('pwStrengthBar');
+  const label = document.getElementById('pwStrengthLabel');
+  if (!bar) return;
+  let strength = 0;
+  if (pw.length >= 8) strength++;
+  if (/[A-Z]/.test(pw)) strength++;
+  if (/[0-9]/.test(pw)) strength++;
+  if (/[^A-Za-z0-9]/.test(pw)) strength++;
+  const levels = [
+    { pct:'0%', color:'var(--gray-200)', text:'Enter a password' },
+    { pct:'25%', color:'var(--red)', text:'Weak — too short or simple' },
+    { pct:'50%', color:'orange', text:'Fair — add numbers or symbols' },
+    { pct:'75%', color:'var(--gold)', text:'Good — almost there!' },
+    { pct:'100%', color:'var(--green)', text:'Strong password ✓' },
+  ];
+  const l = levels[strength] || levels[0];
+  bar.style.width = l.pct; bar.style.background = l.color; label.textContent = l.text;
+}
+
+// ── Auto-fill role credentials ──────────────────────────
+// Role buttons (defined in script.js) will auto-fill email/password
+// Here we also handle URL param ?role=
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  const role = params.get('role');
+  if (role) {
+    const demoMap = {
+      student:{ email:'student@kda.ac.rw', pass:'Student@123' },
+      parent:{ email:'parent@kda.ac.rw', pass:'Parent@123' },
+      teacher:{ email:'teacher@kda.ac.rw', pass:'Teacher@123' },
+      admin:{ email:'admin@kda.ac.rw', pass:'Admin@123' },
+    };
+    const demo = demoMap[role];
+    if (demo) {
+      const em = document.getElementById('email');
+      const pw = document.getElementById('password');
+      if (em) em.value = demo.email;
+      if (pw) pw.value = demo.pass;
+      // Activate matching role button
+      document.querySelectorAll('.role-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.role === role);
+      });
+    }
+  }
+})();
+
+// ── Forgot password hint ────────────────────────────────
+function showForgotHint(e) {
+  e.preventDefault();
+  showToast('Password Reset', 'Please contact your school administrator or email support@kda.ac.rw', 'info');
+}
+
+// ── REGISTER Form Logic ─────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  const registerForm = document.getElementById('registerForm');
+  if (!registerForm) return;
+
+  registerForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    let valid = true;
+
+    const firstName = document.getElementById('regFirstName').value.trim();
+    const lastName = document.getElementById('regLastName').value.trim();
+    const email = document.getElementById('regEmail').value.trim();
+    const role = document.getElementById('regRole').value;
+    const password = document.getElementById('regPassword').value;
+    const confirm = document.getElementById('regConfirm').value;
+    const terms = document.getElementById('regTerms').checked;
+
+    // Validate first name
+    if (!firstName) { showFieldError('regFirstNameErr', 'First name is required.'); valid = false; } else hideFieldError('regFirstNameErr');
+    // Validate last name
+    if (!lastName) { showFieldError('regLastNameErr', 'Last name is required.'); valid = false; } else hideFieldError('regLastNameErr');
+    // Validate email
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showFieldError('regEmailErr', 'Please enter a valid email address.'); valid = false; } else hideFieldError('regEmailErr');
+    // Validate role
+    if (!role) { showFieldError('regRoleErr', 'Please select your role.'); valid = false; } else hideFieldError('regRoleErr');
+    // Validate password
+    if (password.length < 8) { showFieldError('regPassErr', 'Password must be at least 8 characters.'); valid = false; } else hideFieldError('regPassErr');
+    // Validate confirm
+    if (password !== confirm) { showFieldError('regConfirmErr', 'Passwords do not match.'); valid = false; } else hideFieldError('regConfirmErr');
+    // Validate terms
+    if (!terms) { showFieldError('regTermsErr', 'You must agree to the terms to continue.'); valid = false; } else hideFieldError('regTermsErr');
+    if (!valid) return;
+
+    // Check if email already registered
+    let users = [];
+    try { users = JSON.parse(localStorage.getItem('kda_registered_users') || '[]'); } catch(err) {}
+    if (users.find(u => u.email === email)) {
+      showFieldError('regEmailErr', 'This email is already registered. Please sign in.');
+      return;
+    }
+
+    // Save new user
+    const newUser = {
+      id: Date.now(),
+      name: firstName + ' ' + lastName,
+      firstName, lastName, email, role,
+      password, // In a real system this would be hashed
+      avatar: (firstName.charAt(0) + lastName.charAt(0)).toUpperCase(),
+      registeredAt: new Date().toISOString()
+    };
+    users.push(newUser);
+    localStorage.setItem('kda_registered_users', JSON.stringify(users));
+
+    showToast('Account Created! 🎉', 'You can now sign in with your new credentials.', 'success');
+    registerForm.reset();
+    document.getElementById('pwStrengthBar').style.width = '0%';
+    document.getElementById('pwStrengthLabel').textContent = 'Enter a password';
+    setTimeout(() => switchTab('signin'), 1500);
+  });
+});
+</script>
+</body>
+</html>
