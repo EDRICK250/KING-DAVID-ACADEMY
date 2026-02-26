@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Dashboard – King David Academy Portal</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body id="dashPage">
+
+<div id="pageLoader" class="loading-overlay"><div class="spinner"></div><div class="loading-text">Loading Dashboard</div></div>
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Sidebar Overlay (mobile) -->
+<div id="sidebarOverlay" style="position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:400;display:none;opacity:0;transition:opacity .3s" onclick="this.classList.remove('open');document.getElementById('sidebar').classList.remove('open')"></div>
+<style>#sidebarOverlay.open{display:block;opacity:1}</style>
+
+<!-- App Layout -->
+<div class="app-layout">
+
+  <!-- SIDEBAR -->
+  <nav id="sidebar" class="sidebar" role="navigation" aria-label="Portal Navigation">
+    <div class="sidebar-brand">
+      <div class="sidebar-logo">KD</div>
+      <div class="sidebar-brand-text">King David<span>Academy Portal</span></div>
+    </div>
+
+    <div class="sidebar-nav">
+
+      <!-- Common -->
+      <p class="nav-section-title">Main</p>
+      <a href="dashboard.html" class="sidebar-link active"><span class="icon">🏠</span> Dashboard</a>
+      <a href="#" class="sidebar-link" onclick="showTab('announcements')"><span class="icon">📢</span> Announcements <span class="badge-count">4</span></a>
+
+      <!-- Student Only -->
+      <div data-role="student">
+        <p class="nav-section-title">My Academics</p>
+        <a href="results.html" class="sidebar-link"><span class="icon">📊</span> My Results</a>
+        <a href="timetable.html" class="sidebar-link"><span class="icon">📅</span> Timetable</a>
+        <a href="#" class="sidebar-link" onclick="showSection('assignments')"><span class="icon">📝</span> Assignments <span class="badge-count">2</span></a>
+      </div>
+
+      <!-- Parent Only -->
+      <div data-role="parent">
+        <p class="nav-section-title">My Child</p>
+        <a href="results.html" class="sidebar-link"><span class="icon">📊</span> Child's Results</a>
+        <a href="#" class="sidebar-link" onclick="showSection('attendance')"><span class="icon">📈</span> Attendance</a>
+        <a href="#" class="sidebar-link" onclick="showSection('fees')"><span class="icon">💳</span> Fees &amp; Payments</a>
+        <a href="contact.html" class="sidebar-link"><span class="icon">✉️</span> Contact Teacher</a>
+      </div>
+
+      <!-- Teacher Only -->
+      <div data-role="teacher">
+        <p class="nav-section-title">Teaching</p>
+        <a href="#" class="sidebar-link" onclick="showSection('upload-marks')"><span class="icon">📊</span> Upload Marks</a>
+        <a href="#" class="sidebar-link" onclick="showSection('students-list')"><span class="icon">👥</span> My Students</a>
+        <a href="#" class="sidebar-link" onclick="showSection('post-announcement')"><span class="icon">📢</span> Post Notice</a>
+        <a href="timetable.html" class="sidebar-link"><span class="icon">📅</span> Timetable</a>
+      </div>
+
+      <!-- Admin Only -->
+      <div data-role="admin">
+        <p class="nav-section-title">Administration</p>
+        <a href="#" class="sidebar-link" onclick="showSection('students-list')"><span class="icon">👥</span> All Students</a>
+        <a href="#" class="sidebar-link" onclick="showSection('users')"><span class="icon">👤</span> Manage Users</a>
+        <a href="#" class="sidebar-link" onclick="showSection('classes')"><span class="icon">🏫</span> Classes</a>
+        <a href="#" class="sidebar-link" onclick="showSection('post-announcement')"><span class="icon">📢</span> Announcements</a>
+        <a href="#" class="sidebar-link" onclick="showSection('settings')"><span class="icon">⚙️</span> Settings</a>
+      </div>
+
+      <!-- All -->
+      <p class="nav-section-title">Account</p>
+      <a href="contact.html" class="sidebar-link"><span class="icon">✉️</span> Support</a>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="avatar user-avatar-display">U</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name user-name-display">User</div>
+          <div class="sidebar-user-role user-role-display">Role</div>
+        </div>
+      </div>
+      <button class="logout-btn btn btn-outline btn-sm" style="width:100%;margin-top:10px;justify-content:center">🚪 Sign Out</button>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">☰</button>
+        <h1 class="topbar-title" id="dashTitle">Dashboard</h1>
+      </div>
+      <div class="topbar-right">
+        <span id="liveClock" style="font-size:.82rem;color:var(--gray-600);display:none" class="d-md-block"></span>
+        <div style="position:relative">
+          <button class="notification-btn" id="notifBtn" aria-label="Notifications">
+            🔔
+            <span class="notif-badge">3</span>
+          </button>
+          <div class="notif-dropdown" id="notifDropdown" role="menu">
+            <div class="notif-header"><h5>Notifications</h5><a href="#" style="font-size:.78rem;color:var(--gold)">Mark all read</a></div>
+            <div class="notif-item unread">
+              <div class="notif-icon" style="background:var(--red-pale)">📝</div>
+              <div class="notif-text"><p>Term 3 examination timetable is now available.</p><span>2 hours ago</span></div>
+            </div>
+            <div class="notif-item unread">
+              <div class="notif-icon" style="background:var(--green-pale)">✅</div>
+              <div class="notif-text"><p>Your Mathematics assignment has been marked: 78/100.</p><span>Yesterday</span></div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-icon" style="background:var(--gold-pale)">📢</div>
+              <div class="notif-text"><p>Parent-Teacher Conference dates confirmed for 22 Aug.</p><span>2 days ago</span></div>
+            </div>
+            <div class="notif-footer"><a href="#">View all notifications</a></div>
+          </div>
+        </div>
+        <button class="theme-toggle" style="background:var(--gray-100);color:var(--gray-800)">🌙</button>
+        <a href="login.html" class="btn btn-sm btn-outline logout-btn">Sign Out</a>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <main class="page-content">
+
+      <!-- Welcome Banner -->
+      <div class="card" style="background:linear-gradient(135deg,var(--navy),var(--navy-light));border:none;margin-bottom:28px">
+        <div class="card-body" style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+          <div class="avatar avatar-lg user-avatar-display" style="flex-shrink:0">U</div>
+          <div style="flex:1">
+            <p style="color:rgba(255,255,255,.65);font-size:.82rem;margin-bottom:4px">Welcome back 👋</p>
+            <h2 style="color:#fff;font-size:1.4rem;margin-bottom:4px" class="user-name-display">User</h2>
+            <p style="color:var(--gold);font-size:.82rem" class="user-role-display">Role</p>
+          </div>
+          <div style="text-align:right">
+            <p style="color:rgba(255,255,255,.5);font-size:.75rem">Academic Year</p>
+            <p style="color:var(--white);font-weight:700">2025 / Term 3</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── STUDENT DASHBOARD ── -->
+      <div data-role="student">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon stat-icon-blue">📊</div>
+            <div class="stat-info"><div class="stat-value" id="avgScore">76%</div><div class="stat-label">Average Score</div><div class="stat-change up">↑ 3% from Term 2</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon stat-icon-green">📈</div>
+            <div class="stat-info"><div class="stat-value">94%</div><div class="stat-label">Attendance</div><div class="stat-change up">↑ 2% this term</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon stat-icon-gold">📝</div>
+            <div class="stat-info"><div class="stat-value">2</div><div class="stat-label">Pending Assignments</div><div class="stat-change down">Due this week</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon stat-icon-red">🏆</div>
+            <div class="stat-info"><div class="stat-value">11A</div><div class="stat-label">Current Class</div><div class="stat-change up">Grade 11</div></div>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">📊 Performance Overview</h3>
+              <a href="results.html" class="btn btn-sm btn-outline">View All</a>
+            </div>
+            <div class="card-body">
+              <div class="performance-chart" id="perfChart" style="height:160px;display:flex;align-items:flex-end;gap:12px;padding:0 8px"></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3 class="card-title">📢 Latest Announcements</h3></div>
+            <div class="card-body" style="padding:0">
+              <div id="announcementsList" style="max-height:300px;overflow-y:auto"></div>
+            </div>
+          </div>
+          <div class="card full-width">
+            <div class="card-header">
+              <h3 class="card-title">📝 Pending Assignments</h3>
+              <span class="badge badge-red">2 due</span>
+            </div>
+            <div class="card-body">
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Subject</th><th>Title</th><th>Due Date</th><th>Marks</th><th>Status</th><th>Action</th></tr></thead>
+                  <tbody>
+                    <tr><td>Mathematics</td><td>Calculus Problem Set 4</td><td>20 Aug 2025</td><td>25</td><td><span class="badge badge-red">Pending</span></td><td><button class="btn btn-sm btn-primary" onclick="showToast('Submitted!','Assignment uploaded.','success')">📤 Submit</button></td></tr>
+                    <tr><td>Physical Sciences</td><td>Electricity Lab Report</td><td>22 Aug 2025</td><td>40</td><td><span class="badge badge-red">Pending</span></td><td><button class="btn btn-sm btn-primary" onclick="showToast('Submitted!','Assignment uploaded.','success')">📤 Submit</button></td></tr>
+                    <tr><td>Life Sciences</td><td>Ecosystem Essay</td><td>12 Aug 2025</td><td>30</td><td><span class="badge badge-green">Submitted</span></td><td><span style="font-size:.8rem;color:var(--gray-400)">Awaiting mark</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PARENT DASHBOARD ── -->
+      <div data-role="parent">
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-icon stat-icon-blue">👦</div><div class="stat-info"><div class="stat-value">Liam N.</div><div class="stat-label">Child Enrolled</div><div class="stat-change up">Grade 11A</div></div></div>
+          <div class="stat-card"><div class="stat-icon stat-icon-green">📊</div><div class="stat-info"><div class="stat-value">76%</div><div class="stat-label">Average Mark</div><div class="stat-change up">↑ 3% this term</div></div></div>
+          <div class="stat-card"><div class="stat-icon stat-icon-gold">📈</div><div class="stat-info"><div class="stat-value">94%</div><div class="stat-label">Attendance</div><div class="stat-change up">Good standing</div></div></div>
+          <div class="stat-card"><div class="stat-icon stat-icon-red">💳</div><div class="stat-info"><div class="stat-value">R 8,400</div><div class="stat-label">Outstanding Fees</div><div class="stat-change down" id="outstandingAmount">2 terms due</div></div></div>
+        </div>
+        <div class="dashboard-grid">
+          <div class="card">
+            <div class="card-header"><h3 class="card-title">📈 Attendance (Weekly)</h3></div>
+            <div class="card-body"><div class="performance-chart" id="attendanceChart" style="height:140px;display:flex;align-items:flex-end;gap:8px;padding:0 4px"></div></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3 class="card-title">💳 Fee Statement</h3></div>
+            <div class="card-body" style="padding:0">
+              <div class="table-wrap"><table><thead><tr><th>Term</th><th>Amount</th><th>Status</th><th>Action</th></tr></thead><tbody id="feesBody"></tbody></table></div>
+            </div>
+          </div>
+          <div class="card full-width">
+            <div class="card-header"><h3 class="card-title">📊 Recent Results</h3><a href="results.html" class="btn btn-sm btn-outline">View All</a></div>
+            <div class="card-body" style="padding:0">
+              <div class="table-wrap"><table><thead><tr><th>Subject</th><th>Score</th><th>Grade</th><th>Teacher</th></tr></thead><tbody id="resultsBody"></tbody></table></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TEACHER DASHBOARD ── -->
+      <div data-role="teacher">
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-icon stat-icon-blue">👥</div><div class="stat-info"><div class="stat-value">8</div><div class="stat-label">Students Managed</div></div></div>
+          <div class="stat-card"><div class="stat-icon stat-icon-green">📋</div><div class="stat-info"><div class="stat-value">3</div><div class="stat-label">Classes This Term</div></div></div>
+          <div class="stat-card"><div class="stat-icon stat-icon-gold">📊</div><div class="stat-info"><div class="stat-value">72%</div><div class="stat-label">Class Average</div></div></div>
+          <div class="stat-card"><div class="stat-icon stat-icon-red">📝</div><div class="stat-info"><div class="stat-value">5</div><div class="stat-label">Pending Submissions</div></div></div>
+        </div>
+        <div class="dashboard-grid">
+          <div class="card">
+            <div class="card-header"><h3 class="card-title">📊 Upload Marks</h3></div>
+            <div class="card-body">
+              <form id="uploadMarksForm">
+                <div class="form-group"><label class="form-label">Subject</label><select class="form-control" id="markSubject"><option value="">Select subject</option><option>Mathematics</option><option>Physical Sciences</option><option>English Language</option></select></div>
+                <div class="form-group"><label class="form-label">Student</label><select class="form-control" id="markStudent"><option value="">Select student</option><option>Liam Nkosi</option><option>Amara Diallo</option><option>Ethan Sithole</option><option>Zara Mahlangu</option></select></div>
+                <div class="form-row">
+                  <div class="form-group"><label class="form-label">Score (0–100)</label><input type="number" class="form-control" id="markScore" min="0" max="100" placeholder="78"></div>
+                  <div class="form-group"><label class="form-label">Assessment Type</label><select class="form-control"><option>Test</option><option>Assignment</option><option>Exam</option></select></div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">📤 Upload Mark</button>
+              </form>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3 class="card-title">📢 Post Announcement</h3></div>
+            <div class="card-body">
+              <form id="postAnnouncementForm">
+                <div class="form-group"><label class="form-label">Title</label><input type="text" class="form-control" id="annTitle" placeholder="Announcement title"></div>
+                <div class="form-group"><label class="form-label">Message</label><textarea class="form-control" id="annBody" rows="3" placeholder="Write your message here…"></textarea></div>
+                <div class="form-row">
+                  <div class="form-group"><label class="form-label">Category</label><select class="form-control" id="annCategory"><option>Academic</option><option>Events</option><option>Exams</option><option>General</option></select></div>
+                  <div class="form-group"><label class="form-label">Priority</label><select class="form-control" id="annPriority"><option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option></select></div>
+                </div>
+                <button type="submit" class="btn btn-navy" style="width:100%;justify-content:center">📢 Post Notice</button>
+              </form>
+            </div>
+          </div>
+          <div class="card full-width">
+            <div class="card-header">
+              <h3 class="card-title">👥 Student List</h3>
+              <div class="search-bar" style="gap:8px">
+                <div class="search-input-wrap"><span class="search-icon">🔍</span><input type="text" id="studentSearch" class="form-control" placeholder="Search students…" style="min-width:200px"></div>
+                <select class="form-control" id="classFilter" style="width:auto"><option value="">All Classes</option><option>10A</option><option>10B</option><option>11A</option><option>11B</option><option>12A</option></select>
+              </div>
+            </div>
+            <div class="card-body" style="padding:0">
+              <div style="padding:8px 16px;font-size:.78rem;color:var(--gray-600)" id="studentCount"></div>
+              <div class="table-wrap"><table><thead><tr><th>ID</th><th>Name</th><th>Class</th><th>Attendance</th><th>GPA</th><th>Status</th><th>Actions</th></tr></thead><tbody id="studentsBody"></tbody></table></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ADMIN DASHBOARD ── -->
+      <div data-role="admin">
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-icon stat-icon-blue">👥</div><div class="stat-info"><div class="stat-value">1,240</div><div class="stat-label">Total Students</div><div class="stat-change up">↑ 42 enrolled</div></div></div>
+          <div class="stat-card"><div class="stat-icon stat-icon-green">👨‍🏫</div><div class="stat-info"><div class="stat-value">86</div><div class="stat-label">Teaching Staff</div></div></div>
+          <div class="stat-card"><div class="stat-icon stat-icon-gold">🏫</div><div class="stat-info"><div class="stat-value">34</div><div class="stat-label">Active Classes</div></div></div>
+          <div class="stat-card"><div class="stat-icon stat-icon-red">💳</div><div class="stat-info"><div class="stat-value">R 2.1M</div><div class="stat-label">Fees Collected</div><div class="stat-change up">↑ 12% YoY</div></div></div>
+        </div>
+        <div class="dashboard-grid">
+          <div class="card full-width">
+            <div class="card-header">
+              <h3 class="card-title">👥 Student Management</h3>
+              <div style="display:flex;gap:8px">
+                <button class="btn btn-primary btn-sm" id="addUserBtn">+ Add User</button>
+                <div class="search-input-wrap"><span class="search-icon">🔍</span><input type="text" id="studentSearch" class="form-control" placeholder="Search students…" style="min-width:180px"></div>
+                <select class="form-control" id="classFilter" style="width:auto"><option value="">All Classes</option><option>10A</option><option>10B</option><option>11A</option><option>11B</option><option>12A</option></select>
+              </div>
+            </div>
+            <div class="card-body" style="padding:0">
+              <div style="padding:8px 16px;font-size:.78rem;color:var(--gray-600)" id="studentCount"></div>
+              <div class="table-wrap"><table><thead><tr><th>ID</th><th>Name</th><th>Class</th><th>Attendance</th><th>GPA</th><th>Status</th><th>Actions</th></tr></thead><tbody id="studentsBody"></tbody></table></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3 class="card-title">📢 Post Announcement</h3></div>
+            <div class="card-body">
+              <form id="postAnnouncementForm">
+                <div class="form-group"><label class="form-label">Title</label><input type="text" class="form-control" id="annTitle" placeholder="Announcement title"></div>
+                <div class="form-group"><label class="form-label">Message</label><textarea class="form-control" id="annBody" rows="3" placeholder="Message…"></textarea></div>
+                <div class="form-row">
+                  <div class="form-group"><label class="form-label">Category</label><select class="form-control" id="annCategory"><option>Academic</option><option>Events</option><option>Exams</option><option>General</option></select></div>
+                  <div class="form-group"><label class="form-label">Priority</label><select class="form-control" id="annPriority"><option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option></select></div>
+                </div>
+                <button type="submit" class="btn btn-navy" style="width:100%;justify-content:center">📢 Post</button>
+              </form>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3 class="card-title">📊 System Overview</h3></div>
+            <div class="card-body">
+              <ul style="display:grid;gap:14px">
+                <li style="display:flex;justify-content:space-between;align-items:center;font-size:.875rem"><span>Overall Pass Rate</span><span class="badge badge-green">97.8%</span></li>
+                <li style="display:flex;justify-content:space-between;align-items:center;font-size:.875rem"><span>Average Attendance</span><span class="badge badge-green">91.4%</span></li>
+                <li style="display:flex;justify-content:space-between;align-items:center;font-size:.875rem"><span>At-Risk Students</span><span class="badge badge-red">12</span></li>
+                <li style="display:flex;justify-content:space-between;align-items:center;font-size:.875rem"><span>Fee Collection Rate</span><span class="badge badge-gold">84%</span></li>
+                <li style="display:flex;justify-content:space-between;align-items:center;font-size:.875rem"><span>Registered Parents</span><span class="badge badge-blue">1,108</span></li>
+                <li style="display:flex;justify-content:space-between;align-items:center;font-size:.875rem"><span>Portal Active Users</span><span class="badge badge-blue">2,436</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- Student View Modal -->
+<div class="modal-overlay" id="studentModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modalStudentName" style="font-family:var(--font-display);font-size:1.2rem">Student Profile</h3>
+      <button class="close-btn" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body" id="modalStudentDetails"></div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="this.closest('.modal-overlay').classList.remove('open')">Close</button></div>
+  </div>
+</div>
+
+<!-- Add User Modal -->
+<div class="modal-overlay" id="addUserModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 style="font-family:var(--font-display);font-size:1.2rem">Add New User</h3>
+      <button class="close-btn" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <form id="addUserForm">
+        <div class="form-group"><label class="form-label">Full Name</label><input type="text" class="form-control" id="newName" placeholder="Enter full name" required></div>
+        <div class="form-group"><label class="form-label">Email Address</label><input type="email" class="form-control" id="newEmail" placeholder="email@kda.ac.za" required></div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Role</label><select class="form-control" id="newRole"><option value="">Select role</option><option>student</option><option>parent</option><option>teacher</option><option>admin</option></select></div>
+          <div class="form-group"><label class="form-label">Class (if student)</label><select class="form-control"><option value="">N/A</option><option>10A</option><option>10B</option><option>11A</option><option>11B</option><option>12A</option></select></div>
+        </div>
+        <div class="form-group"><label class="form-label">Temporary Password</label><input type="password" class="form-control" value="Welcome@123" required></div>
+        <p style="font-size:.78rem;color:var(--gray-600);margin-top:-10px">User will be prompted to change password on first login.</p>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="this.closest('.modal-overlay').classList.remove('open')">Cancel</button>
+      <button class="btn btn-primary" onclick="document.getElementById('addUserForm').dispatchEvent(new Event('submit'))">Create User</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/script.js"></script>
+<script>
+function showSection(id) { console.log('Navigate to: ' + id); }
+function showTab(id) { console.log('Show tab: ' + id); }
+</script>
+</body>
+</html>

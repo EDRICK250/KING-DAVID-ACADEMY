@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>King David Academy – Excellence in Education</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Loading Screen -->
+<div id="pageLoader" class="loading-overlay">
+  <div class="spinner"></div>
+  <div class="loading-text">King David Academy</div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Navbar -->
+<nav class="navbar" role="navigation" aria-label="Main Navigation">
+  <div class="navbar-inner">
+    <a class="navbar-brand" href="index.html">
+      <div class="navbar-logo">KD</div>
+      <div class="navbar-name">King David Academy<span>Excellence in Education</span></div>
+    </a>
+    <ul class="navbar-nav" role="list">
+      <li><a class="nav-link active" href="index.html">Home</a></li>
+      <li><a class="nav-link" href="about.html">About</a></li>
+      <li><a class="nav-link" href="news.html">News</a></li>
+      <li><a class="nav-link" href="contact.html">Contact</a></li>
+    </ul>
+    <div class="navbar-actions">
+      <button class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+      <a href="login.html" class="btn btn-primary btn-sm">Sign In</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu" role="navigation">
+  <ul>
+    <li><a class="nav-link" href="index.html">🏠 Home</a></li>
+    <li><a class="nav-link" href="about.html">🏫 About</a></li>
+    <li><a class="nav-link" href="news.html">📰 News</a></li>
+    <li><a class="nav-link" href="contact.html">✉️ Contact</a></li>
+    <li><a class="nav-link" href="login.html">🔐 Sign In</a></li>
+  </ul>
+</div>
+
+<!-- Hero — Photo 1: Graduation Hall -->
+<header class="hero" role="banner" style="background:none;padding:0;position:relative;">
+  <div class="hero-photo-wrap" style="position:relative;overflow:hidden;min-height:540px;display:flex;align-items:center;">
+    <img src="assets/images/graduation-hall.png" alt="King David Academy Graduation Ceremony" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;">
+    <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(10,22,40,.85) 0%,rgba(10,22,40,.65) 60%,rgba(30,58,110,.5) 100%);"></div>
+    <div class="container" style="position:relative;z-index:1;padding:80px 24px;">
+      <div class="hero-content">
+        <div class="hero-tag" style="background:rgba(201,162,39,.2);color:var(--gold);border:1px solid rgba(201,162,39,.35);">🎓 Est. 1984 · Kigali, Rwanda</div>
+        <h1 style="color:#fff;margin-bottom:20px;">Shaping Leaders.<br><em style="font-style:normal;color:var(--gold);">Inspiring Futures.</em></h1>
+        <p class="hero-desc" style="color:rgba(255,255,255,.8);">King David Academy provides a world-class education rooted in values, academic excellence, and community. Our modern portal keeps every family connected.</p>
+        <div class="hero-actions">
+          <a href="login.html" class="btn btn-primary">Access Portal →</a>
+          <a href="about.html" class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,.35);">Learn More</a>
+        </div>
+        <div class="hero-stats">
+          <div><div class="hero-stat-num">900</div><div class="hero-stat-label">Students Enrolled</div></div>
+          <div><div class="hero-stat-num">88%</div><div class="hero-stat-label">Pass Rate</div></div>
+          <div><div class="hero-stat-num">53</div><div class="hero-stat-label">Teaching Staff</div></div>
+          <div><div class="hero-stat-num">20+</div><div class="hero-stat-label">Years of Excellence</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- School Building Banner — Photo 2 -->
+<div style="position:relative;overflow:hidden;height:300px;">
+  <img src="assets/images/school-building.png" alt="King David Academy Campus" style="width:100%;height:100%;object-fit:cover;object-position:center 40%;">
+  <div style="position:absolute;inset:0;background:rgba(10,22,40,.55);display:flex;align-items:center;justify-content:center;">
+    <div style="text-align:center;color:#fff;">
+      <h2 style="font-family:var(--font-display);font-size:clamp(1.4rem,4vw,2.4rem);margin-bottom:10px;">Our Campus</h2>
+      <p style="color:rgba(255,255,255,.75);font-size:clamp(.85rem,2vw,1rem);max-width:480px;margin:0 auto;">A vibrant, modern learning environment designed to inspire every learner who walks through our gates.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Features -->
+<section class="section" aria-labelledby="features-heading">
+  <div class="container">
+    <div class="section-header">
+      <p class="eyebrow">Portal Features</p>
+      <h2 id="features-heading">Everything in One Place</h2>
+      <p>Our online portal brings students, parents, teachers and administrators together on a single secure platform.</p>
+      <div class="divider"></div>
+    </div>
+    <div class="features-grid">
+      <article class="feature-card">
+        <div class="feature-icon">
+          <img src="./results.jpg" alt="Academic Results" style="width:720px;height:720px;object-fit:contain;">
+        </div>
+        <h3>Academic Results</h3>
+        <p>View marks, grades, and performance trends across all subjects in real time.</p>
+      </article>
+      <article class="feature-card">
+        <div class="feature-icon">
+          <img src="./table.jpg" alt="Timetables" style="width:720px;height:720px;object-fit:contain;">
+        </div>
+        <h3>Timetables</h3>
+        <p>Access your weekly class schedule and receive instant updates when changes occur.</p>
+      </article>
+      <article class="feature-card">
+        <div class="feature-icon">
+          <img src="./anounce.jpg" alt="Announcements" style="width:720px;height:720px;object-fit:contain;">
+        </div>
+        <h3>Announcements</h3>
+        <p>Stay informed with school notices, events, and urgent communications.</p>
+      </article>
+      <article class="feature-card">
+        <div class="feature-icon">
+           <img src="./fee.jpg" alt="Fee Management" style="width:720px;height:720px;object-fit:contain;">
+        </div>
+        <h3>Fee Management</h3>
+        <p>Parents can view fee statements and make secure online payments at any time.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Announcements Preview -->
+<section class="section section-alt" aria-labelledby="announce-heading">
+  <div class="container">
+    <div class="section-header">
+      <p class="eyebrow">Latest Updates</p>
+      <h2 id="announce-heading">School Announcements</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="announcements-list" id="announcementsList"></div>
+    <div style="text-align:center;margin-top:32px">
+      <a href="news.html" class="btn btn-navy">View All Announcements</a>
+    </div>
+  </div>
+</section>
+
+<!-- News -->
+<section class="section" aria-labelledby="news-heading">
+  <div class="container">
+    <div class="section-header">
+      <p class="eyebrow">School Life</p>
+      <h2 id="news-heading">News &amp; Stories</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="news-grid">
+      <article class="news-card">
+        <div class="news-thumb news-thumb-1" style="background:none;overflow:hidden;">
+          <img src="./results1.jpg" alt="Record Results" style="width:300px;height:300px;object-fit:contain;">
+        </div>
+        <div class="news-card-body">
+          <h4>Class of 2025 Achieves Record Results</h4>
+          <p>Our learners achieved a 98% pass rate—the best result in the school's history.</p>
+          <div class="news-meta"><span>📅 15 Jan 2025</span><span>•</span><span>Academic</span></div>
+        </div>
+      </article>
+      <article class="news-card">
+        <div class="news-thumb news-thumb-2" style="background:none;overflow:hidden;">
+          <img src="./u16.jpg" alt="Football Champion" style="width:300px;height:300px;object-fit:contain;">
+        </div>
+        <div class="news-card-body">
+          <h4>U16 Football Team Wins Regional Championship</h4>
+          <p>The Academy's Under-16 squad beat Greenview High 3–1 in the regional final.</p>
+          <div class="news-meta"><span>📅 22 Mar 2025</span><span>•</span><span>Sports</span></div>
+        </div>
+      </article>
+      <article class="news-card">
+        <div class="news-thumb news-thumb-3" style="background:none;overflow:hidden;">
+          <img src="./cultural.jpg" alt="Cultural Festival" style="width:300px;height:300px;object-fit:contain;">
+        </div>
+        <div class="news-card-body">
+          <h4>Annual Cultural Festival Returns in August</h4>
+          <p>This year's festival celebrates 40 years of the Academy with drama, music and art.</p>
+          <div class="news-meta"><span>📅 10 Jun 2025</span><span>•</span><span>Events</span></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Quick Access -->
+<section class="section section-alt">
+  <div class="container" style="text-align:center">
+    <p class="eyebrow">Quick Access</p>
+    <h2 style="margin-bottom:12px">Sign In to Your Portal</h2>
+    <p style="color:var(--gray-600);margin-bottom:36px">Choose your role to access personalised features.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+      <a href="login.html?role=student" class="btn btn-navy" style="flex-direction:column;padding:20px 28px;height:auto;min-width:140px">
+        <img src="https://img.icons8.com/color/48/student-male.png" alt="Student" style="width:40px;height:40px;margin-bottom:8px;">Student
+      </a>
+      <a href="login.html?role=parent" class="btn btn-navy" style="flex-direction:column;padding:20px 28px;height:auto;min-width:140px">
+        <img src="https://img.icons8.com/color/48/family.png" alt="Parent" style="width:40px;height:40px;margin-bottom:8px;">Parent
+      </a>
+      <a href="login.html?role=teacher" class="btn btn-navy" style="flex-direction:column;padding:20px 28px;height:auto;min-width:140px">
+        <img src="https://img.icons8.com/color/48/teacher.png" alt="Teacher" style="width:40px;height:40px;margin-bottom:8px;">Teacher
+      </a>
+      <a href="login.html?role=admin" class="btn btn-primary" style="flex-direction:column;padding:20px 28px;height:auto;min-width:140px">
+        <img src="https://img.icons8.com/color/48/admin-settings-male.png" alt="Admin" style="width:40px;height:40px;margin-bottom:8px;">Admin
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="navbar-logo" style="width:40px;height:40px;font-size:1rem">KD</div>
+          <div style="font-family:var(--font-display);color:#fff;font-size:1rem;font-weight:700">King David Academy</div>
+        </div>
+        <p>Providing holistic, value-driven education in Kigali, Rwanda. Our commitment is to every learner's academic and personal growth.</p>
+        <div class="social-links">
+          <a href="#" class="social-link" aria-label="Facebook">f</a>
+          <a href="#" class="social-link" aria-label="Twitter">𝕏</a>
+          <a href="#" class="social-link" aria-label="Instagram">📷</a>
+          <a href="#" class="social-link" aria-label="YouTube">▶</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Quick Links</h5>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="news.html">News & Events</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="login.html">Portal Login</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Portal</h5>
+        <ul>
+          <li><a href="login.html">Student Portal</a></li>
+          <li><a href="login.html">Parent Portal</a></li>
+          <li><a href="login.html">Teacher Portal</a></li>
+          <li><a href="login.html">Admin Panel</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <ul>
+          <li>📍 KG 7 Ave, Kigali, Rwanda</li>
+          <li>📞 +250 788 000 100</li>
+          <li>✉️ info@kda.ac.rw</li>
+          <li>🕐 Mon–Fri: 07:00 – 17:00</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="footer-bottom">
+      <span>© 2025 King David Academy. All rights reserved.</span>
+      <span>Designed with care for our learners.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>

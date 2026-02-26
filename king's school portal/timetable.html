@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Timetable – King David Academy</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body id="dashPage">
+<div id="pageLoader" class="loading-overlay"><div class="spinner"></div><div class="loading-text">Loading Timetable</div></div>
+<div class="toast-container" id="toastContainer"></div>
+
+<div class="app-layout">
+  <nav id="sidebar" class="sidebar">
+    <div class="sidebar-brand"><div class="sidebar-logo">KD</div><div class="sidebar-brand-text">King David<span>Academy Portal</span></div></div>
+    <div class="sidebar-nav">
+      <a href="dashboard.html" class="sidebar-link"><span class="icon">🏠</span> Dashboard</a>
+      <a href="results.html" class="sidebar-link"><span class="icon">📊</span> Results</a>
+      <a href="timetable.html" class="sidebar-link active"><span class="icon">📅</span> Timetable</a>
+    </div>
+    <div class="sidebar-footer">
+      <div class="sidebar-user"><div class="avatar user-avatar-display">U</div><div class="sidebar-user-info"><div class="sidebar-user-name user-name-display">User</div><div class="sidebar-user-role user-role-display">Role</div></div></div>
+      <button class="logout-btn btn btn-outline btn-sm" style="width:100%;margin-top:10px;justify-content:center">🚪 Sign Out</button>
+    </div>
+  </nav>
+
+  <div class="main-content">
+    <header class="topbar">
+      <div class="topbar-left"><button class="sidebar-toggle" id="sidebarToggle">☰</button><h1 class="topbar-title">Class Timetable</h1></div>
+      <div class="topbar-right">
+        <button class="theme-toggle" style="background:var(--gray-100);color:var(--gray-800)">🌙</button>
+        <button class="btn btn-sm btn-outline" onclick="showToast('Downloading…','Timetable PDF saved.','success')">📥 Download PDF</button>
+        <a href="dashboard.html" class="btn btn-sm btn-outline">← Back</a>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <div class="card" style="margin-bottom:20px">
+        <div class="card-body" style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
+          <div><strong style="color:var(--navy)">Grade 11A</strong> — <span style="color:var(--gray-600)">Term 3, 2025</span></div>
+          <div style="margin-left:auto;display:flex;gap:10px;flex-wrap:wrap;font-size:.78rem">
+            <span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:2px;background:#e8f0fe;border:1px solid #2562ea;display:inline-block"></span>Mathematics</span>
+            <span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:2px;background:var(--green-pale);border:1px solid var(--green);display:inline-block"></span>English</span>
+            <span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:2px;background:var(--gold-pale);border:1px solid var(--gold);display:inline-block"></span>Sciences</span>
+            <span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:2px;background:#f3e8fe;border:1px solid #7c3aed;display:inline-block"></span>Humanities</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3 class="card-title">📅 Weekly Class Schedule</h3><span id="liveClock" style="font-size:.82rem;color:var(--gray-600)"></span></div>
+        <div class="card-body" style="padding:16px">
+          <div class="table-wrap">
+            <table class="timetable">
+              <thead>
+                <tr>
+                  <th style="width:90px">Time</th>
+                  <th>Monday</th><th>Tuesday</th><th>Wednesday</th><th>Thursday</th><th>Friday</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="time-col">07:30 – 08:20</td>
+                  <td><div class="lesson-cell lesson-math">📐 Mathematics<br><small>Mr. Dlamini · Rm 14</small></div></td>
+                  <td><div class="lesson-cell lesson-english">📖 English<br><small>Ms. Osei · Rm 7</small></div></td>
+                  <td><div class="lesson-cell lesson-science">🔬 Phys. Sciences<br><small>Mr. Botha · Lab 2</small></div></td>
+                  <td><div class="lesson-cell lesson-math">📐 Mathematics<br><small>Mr. Dlamini · Rm 14</small></div></td>
+                  <td><div class="lesson-cell lesson-english">📖 English<br><small>Ms. Osei · Rm 7</small></div></td>
+                </tr>
+                <tr>
+                  <td class="time-col">08:20 – 09:10</td>
+                  <td><div class="lesson-cell lesson-history">📜 History<br><small>Mr. Zulu · Rm 22</small></div></td>
+                  <td><div class="lesson-cell lesson-science">🧪 Life Sciences<br><small>Dr. Naidoo · Lab 1</small></div></td>
+                  <td><div class="lesson-cell lesson-math">📐 Mathematics<br><small>Mr. Dlamini · Rm 14</small></div></td>
+                  <td><div class="lesson-cell lesson-geo">🌍 Geography<br><small>Ms. Petersen · Rm 9</small></div></td>
+                  <td><div class="lesson-cell lesson-science">🔬 Phys. Sciences<br><small>Mr. Botha · Lab 2</small></div></td>
+                </tr>
+                <tr>
+                  <td class="time-col">09:10 – 09:30</td>
+                  <td colspan="5" style="text-align:center"><div class="lesson-cell lesson-break">☕ Morning Break</div></td>
+                </tr>
+                <tr>
+                  <td class="time-col">09:30 – 10:20</td>
+                  <td><div class="lesson-cell lesson-science">🧪 Life Sciences<br><small>Dr. Naidoo · Lab 1</small></div></td>
+                  <td><div class="lesson-cell lesson-math">📐 Mathematics<br><small>Mr. Dlamini · Rm 14</small></div></td>
+                  <td><div class="lesson-cell lesson-english">📖 English<br><small>Ms. Osei · Rm 7</small></div></td>
+                  <td><div class="lesson-cell lesson-science">🧪 Life Sciences<br><small>Dr. Naidoo · Lab 1</small></div></td>
+                  <td><div class="lesson-cell lesson-history">📜 History<br><small>Mr. Zulu · Rm 22</small></div></td>
+                </tr>
+                <tr>
+                  <td class="time-col">10:20 – 11:10</td>
+                  <td><div class="lesson-cell lesson-geo">🌍 Geography<br><small>Ms. Petersen · Rm 9</small></div></td>
+                  <td><div class="lesson-cell lesson-history">📜 History<br><small>Mr. Zulu · Rm 22</small></div></td>
+                  <td><div class="lesson-cell lesson-geo">🌍 Geography<br><small>Ms. Petersen · Rm 9</small></div></td>
+                  <td><div class="lesson-cell lesson-english">📖 English<br><small>Ms. Osei · Rm 7</small></div></td>
+                  <td><div class="lesson-cell lesson-math">📐 Mathematics<br><small>Mr. Dlamini · Rm 14</small></div></td>
+                </tr>
+                <tr>
+                  <td class="time-col">11:10 – 11:50</td>
+                  <td><div class="lesson-cell lesson-pe">🏃 PE<br><small>Coach Mosia · Hall</small></div></td>
+                  <td><div class="lesson-cell lesson-science">🔬 Phys. Sciences<br><small>Mr. Botha · Lab 2</small></div></td>
+                  <td><div class="lesson-cell lesson-pe">🏃 PE<br><small>Coach Mosia · Hall</small></div></td>
+                  <td><div class="lesson-cell lesson-math">📐 Mathematics<br><small>Mr. Dlamini · Rm 14</small></div></td>
+                  <td><div class="lesson-cell lesson-geo">🌍 Geography<br><small>Ms. Petersen · Rm 9</small></div></td>
+                </tr>
+                <tr>
+                  <td class="time-col">11:50 – 12:30</td>
+                  <td colspan="5" style="text-align:center"><div class="lesson-cell lesson-break">🍱 Lunch Break</div></td>
+                </tr>
+                <tr>
+                  <td class="time-col">12:30 – 13:20</td>
+                  <td><div class="lesson-cell lesson-math">📐 Mathematics<br><small>Mr. Dlamini · Rm 14</small></div></td>
+                  <td><div class="lesson-cell lesson-geo">🌍 Geography<br><small>Ms. Petersen · Rm 9</small></div></td>
+                  <td><div class="lesson-cell lesson-history">📜 History<br><small>Mr. Zulu · Rm 22</small></div></td>
+                  <td><div class="lesson-cell lesson-science">🔬 Phys. Sciences<br><small>Mr. Botha · Lab 2</small></div></td>
+                  <td class="lesson-free">No Class</td>
+                </tr>
+                <tr>
+                  <td class="time-col">13:20 – 14:10</td>
+                  <td><div class="lesson-cell lesson-english">📖 English<br><small>Ms. Osei · Rm 7</small></div></td>
+                  <td><div class="lesson-cell lesson-science">🧪 Life Sciences<br><small>Dr. Naidoo · Lab 1</small></div></td>
+                  <td class="lesson-free">No Class</td>
+                  <td class="lesson-free">No Class</td>
+                  <td class="lesson-free">No Class</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Teacher Reference -->
+      <div class="card" style="margin-top:24px">
+        <div class="card-header"><h3 class="card-title">👩‍🏫 Teachers &amp; Rooms</h3></div>
+        <div class="card-body" style="padding:0">
+          <table>
+            <thead><tr><th>Subject</th><th>Teacher</th><th>Email</th><th>Room</th><th>Contact Hours</th></tr></thead>
+            <tbody>
+              <tr><td>📐 Mathematics</td><td>Mr. J. Dlamini</td><td>j.dlamini@kda.ac.za</td><td>Room 14</td><td>Mon, Wed, Thu, Fri</td></tr>
+              <tr><td>📖 English Language</td><td>Ms. A. Osei</td><td>a.osei@kda.ac.za</td><td>Room 7</td><td>Mon, Tue, Wed, Thu</td></tr>
+              <tr><td>🔬 Physical Sciences</td><td>Mr. C. Botha</td><td>c.botha@kda.ac.za</td><td>Lab 2</td><td>Mon, Tue, Fri</td></tr>
+              <tr><td>🧪 Life Sciences</td><td>Dr. S. Naidoo</td><td>s.naidoo@kda.ac.za</td><td>Lab 1</td><td>Mon, Tue, Thu</td></tr>
+              <tr><td>📜 History</td><td>Mr. K. Zulu</td><td>k.zulu@kda.ac.za</td><td>Room 22</td><td>Mon, Tue, Fri</td></tr>
+              <tr><td>🌍 Geography</td><td>Ms. T. Petersen</td><td>t.petersen@kda.ac.za</td><td>Room 9</td><td>Tue, Wed, Thu, Fri</td></tr>
+              <tr><td>🏃 Physical Education</td><td>Coach T. Mosia</td><td>t.mosia@kda.ac.za</td><td>Sports Hall</td><td>Mon, Wed</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
